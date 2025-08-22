@@ -1,0 +1,85 @@
+// Personajes de Tragones y Mazmorras
+class Personaje(val nombre: String, var clase: String){
+    fun atacar(monstruo: Monstruo){
+        println("$nombre ataca a ${monstruo.nombre}!")
+    }
+
+    fun comer(comida : Comida){
+        println("$nombre come ${comida.nombre} y se siente ${comida.efecto}!")
+        // efectos de comida (no siempre es saciedad)
+    }
+}
+
+//Monstruos
+class Monstruo(val nombre: String, var salud: Int){
+    fun recibirAtaque(dano: Int){
+        salud -= dano
+        println("El monstruo ${nombre} recibio $dano de daño, le resta: $salud")
+    }
+    
+    fun esta_derrotado(): Boolean{
+        return salud <=0
+        //preguntar si esta o no muerto el monstruo
+        //solo si salud es menor o igual a 0
+    }
+}
+
+//comida que resulta de derrotar a los monstruos
+class Comida(val nombre: String, val ingrediente_principal: String, val efecto: String){
+    fun describir_comida(){
+        println("La comida es $nombre, su ingrediente principal es: $ingrediente_principal")
+        println("Efecto: $efecto")
+    }
+}
+
+class Objeto(val nombre: String, val tipo: String){
+    fun usar(){
+        println("Usando el objeto: $nombre")
+    }
+}
+
+//Mazmorra
+
+class Mazmorra{
+    //encuentro con monstruo
+    fun Encuentro(monstruo: Monstruo){
+        println("Eres Atacadoo!!")
+        println("Un ${monstruo.nombre} ha aparecido!")
+    }
+    
+    //encontrar objetos
+    fun encontrar_objetos(objeto: Objeto){
+        println("Haz encontrado: ${objeto.nombre}")
+    }
+}
+
+
+fun main() {
+    val laios = Personaje ("laios","Guerrero")
+    val hongo_Caminante = Monstruo ("Hongo caminante", 15)
+    
+    val estofado_de_hongo = Comida ("Estofado de hongo", "hongo caminante", "Recupera salud y energia")
+    val setas_de_curacion = Objeto ("Setas de curacion", "Ingerible")
+    
+    val mazmorra = Mazmorra()
+    
+    mazmorra.Encuentro(hongo_Caminante)
+    
+    laios.atacar(hongo_Caminante)
+    hongo_Caminante.recibirAtaque(10)
+    
+    if(hongo_Caminante.esta_derrotado()){
+        println("${hongo_Caminante.nombre} ha sido derrotado. !A COMERR!")
+        laios.comer(estofado_de_hongo)
+        estofado_de_hongo.describir_comida()
+    }
+    else{
+        println("${hongo_Caminante.nombre} aun no esta derrotado, Marcille ataca!!")
+    }
+    
+    mazmorra.encontrar_objetos(setas_de_curacion)
+    setas_de_curacion.usar()
+    
+    println("La aventura apenas comienza.")
+    
+}
